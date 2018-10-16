@@ -17,3 +17,33 @@ public:
     }
 
 };
+
+2、参考https://leetcode.com/problems/3sum/discuss/7402/Share-my-AC-C++-solution-around-50ms-O(N*N)-with-explanation-and-comments，
+将问题转化为求two-sum.
+class Solution2 {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        vector<vector<int>> rs;
+
+         sort(nums.begin(),nums.end());
+
+         for(int i=0;i<nums.size();i++){
+             int target = -nums[i];
+             int front = i+1, rear = nums.size() -1;
+             int sum2;
+             while(front < rear){
+                 sum2 = nums[front] + nums[rear];
+                 if(sum2 < target) front++;
+                 else if(sum2 > target) rear--;
+                 else {
+                     vector<int>triplet = {nums[i], nums[front], nums[rear]};
+                     rs.push_back(triplet);
+                     while(front < rear && nums[front] == triplet[1]) front++;
+                     while (rear > front &&nums[rear] == triplet[2]) rear--;
+                 }
+             }
+             while(i+1<nums.size() && nums[i+1] == nums[i]) i++;
+         }
+        return rs;
+    }
+};
